@@ -1,0 +1,8 @@
+node_modules/
+alacritty/
+gh/
+github-copilot/
+temporalio/
+yarn/
+simple-update-notifier/
+configstore/
