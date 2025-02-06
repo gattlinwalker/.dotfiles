@@ -17,7 +17,6 @@ local nordic = {
   end
 }
 
-
 local theme = everforest
 
 return {

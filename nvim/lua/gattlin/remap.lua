@@ -19,9 +19,10 @@ vim.keymap.set({ "i", "v" }, "<C-j>", "<Esc>")
 -- Save with space w
 vim.keymap.set("n", "<leader>w", "<cmd>:w<CR>")
 
--- For some reason yy is super slow and seems like it is waiting on another key
+-- For some reason yy and space is super slow and seems like it is waiting on another key
 -- Explicitly mapping here
 vim.keymap.set("n", "yy", "yy")
+vim.keymap.set("t", "<space>", "<space>")
 
 -- Jump to beginning and end of lines on home row
 vim.keymap.set({ "n", "v" }, "H", "^")
@@ -44,11 +45,11 @@ vim.keymap.set("n", "<C-d>", "<C-d>zt")
 vim.keymap.set({ "n", "v", "x" }, "J", "<cmd>:m .+1<CR>")
 vim.keymap.set({ "n", "v", "x" }, "K", "<cmd>:m .-2<CR>")
 
-vim.keymap.set("x", "<leader>p", [["_dP]])
+-- vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- next greatest remap ever : asbjornHaland
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
-vim.keymap.set("n", "<leader>Y", [["+Y]])
+-- vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 

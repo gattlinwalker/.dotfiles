@@ -56,9 +56,9 @@ return {
         "ruby_lsp",
         "vtsls", -- typescript
         "kotlin_language_server",
-        "java_language_server",
+        "jdlts", -- java
         "tflint",
-        "ltex", -- markdown
+        "ltex",  -- markdown
         "html"
       },
       handlers = {

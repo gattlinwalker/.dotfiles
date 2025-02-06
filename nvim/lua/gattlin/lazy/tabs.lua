@@ -16,9 +16,7 @@ return {
 
     -- Move to previous/next
     vim.keymap.set('n', '<leader>,', '<Cmd>BufferPrevious<CR>')
-    vim.keymap.set('t', '<leader>,', '<Cmd>BufferPrevious<CR>')
     vim.keymap.set('n', '<leader>.', '<Cmd>BufferNext<CR>')
-    vim.keymap.set('t', '<leader>.', '<Cmd>BufferNext<CR>')
   end,
   opts = {
     highlight_visible = true,
