@@ -12,10 +12,10 @@ return {
         cmd = { "rt" },
         args = { file .. ":" .. tostring(line_num) },
       }
-    elseif extension == "js" or extension == "ts" then
+    elseif extension == "js" or extension == "ts" or extension == "jsx" or extension == "tsx" then
       cmd_opts = {
-        cmd = { "yarn" },
-        args = { "test", "--", file },
+        cmd = { "nvm" },
+        args = { "use", "&&", "yarn", "test", "--", file },
       }
     else
       error("invalid operation")

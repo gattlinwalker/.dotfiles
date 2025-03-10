@@ -12,6 +12,8 @@ return {
     { "<leader>h3", function() require('harpoon.ui').nav_file(3) end,         desc = "Harpoon: Goto #3",             mode = { "n", "v" } },
     { "<leader>h4", function() require('harpoon.ui').nav_file(4) end,         desc = "Harpoon: Goto #4",             mode = { "n", "v" } },
     { "<leader>h5", function() require('harpoon.ui').nav_file(5) end,         desc = "Harpoon: Goto #5",             mode = { "n", "v" } },
+    { "<leader>h,", function() require('harpoon.ui').nav_next() end,          desc = "Harpoon: Goto Next",           mode = { "n", "v" } },
+    { "<leader>h.", function() require('harpoon.ui').nav_prev() end,          desc = "Harpoon: Goto Prev",           mode = { "n", "v" } },
   },
   opts = {},
 }

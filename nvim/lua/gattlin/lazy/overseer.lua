@@ -25,7 +25,6 @@ return {
       use_shell = true,
       auto_scroll = true,
       open_on_start = true,
-      hidden = true,
     },
   },
 }

@@ -16,9 +16,24 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 
--- LSP Go to Definition and Declaration
-vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
+local function quickfix()
+  vim.lsp.buf.code_action({
+    filter = function(a) return a.isPreferred end,
+    apply = true
+  })
+end
+
+local opts = { noremap = true, silent = true }
+vim.keymap.set('n', 'gf', quickfix, opts)
+vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<cr>", opts)
+vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>", opts)
+vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<cr>", opts)
+vim.keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<cr>", opts)
+vim.keymap.set("n", "gh", vim.lsp.buf.hover, opts)
+vim.keymap.set("n", "gH", vim.lsp.buf.signature_help, opts)
+vim.keymap.set("n", "gr", vim.lsp.buf.rename, opts)
+vim.keymap.set("n", "gc", vim.lsp.buf.code_action, opts)
 
 return {
   "neovim/nvim-lspconfig",
@@ -56,7 +71,7 @@ return {
         "ruby_lsp",
         "vtsls", -- typescript
         "kotlin_language_server",
-        "jdlts", -- java
+        "jdtls", -- java
         "tflint",
         "ltex",  -- markdown
         "html"

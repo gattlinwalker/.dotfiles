@@ -1,5 +1,7 @@
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
+vim.g.encoding = "utf-8"
+vim.g.airline_powerline_fonts = 1
 
 vim.opt.nu = true
 
