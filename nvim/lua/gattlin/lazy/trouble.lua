@@ -1,22 +1,20 @@
 return {
   {
     "folke/trouble.nvim",
+    opts = {
+      warn_no_results = false,
+      indent_guides = false,
+    },
     config = function()
-      require("trouble").setup({
-        icons = false,
+      local trouble = require("trouble")
+      trouble.setup({
+        use_lsp_diagnostic_signs = true,
       })
 
-      vim.keymap.set("n", "<leader>tt", function()
-        require("trouble").toggle()
-      end)
+      vim.keymap.set("n", "<leader>tt", "<cmd>Trouble diagnostics toggle<cr>")
 
-      vim.keymap.set("n", "[t", function()
-        require("trouble").next({ skip_groups = true, jump = true });
-      end)
-
-      vim.keymap.set("n", "]t", function()
-        require("trouble").previous({ skip_groups = true, jump = true });
-      end)
+      vim.keymap.set("n", "]t", "<cmd>Trouble diagnostics next jump_only<cr>")
+      vim.keymap.set("n", "[t", "<cmd>Trouble diagnostics prev jump_only<cr>")
     end
   },
 }

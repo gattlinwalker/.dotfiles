@@ -9,3 +9,4 @@ configstore/
 tmux/plugins/
 goose/
 pip/
+databricks-sdk-py/

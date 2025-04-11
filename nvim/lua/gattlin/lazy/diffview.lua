@@ -10,31 +10,48 @@ return {
     "diffview.nvim"
   },
   config = function()
-    local diffview = require('diffview')
-    diffview.setup()
+    local actions = require("diffview.actions")
 
     local diffviewOpen = false
     local toggleDiffview = function()
       if not diffviewOpen then
-        diffviewOpen = true
         vim.cmd(":DiffviewOpen")
       else
-        diffviewOpen = false
         vim.cmd(":DiffviewClose")
       end
     end
-    vim.keymap.set("n", "<leader>gd", toggleDiffview)
 
-    local diffviewHeadOpen = false
-    local toggleDiffviewHead = function()
-      if not diffviewHeadOpen then
-        diffviewHeadOpen = true
-        vim.cmd(":DiffviewOpen HEAD^")
-      else
-        diffviewHeadOpen = false
-        vim.cmd(":DiffviewClose")
-      end
+    local goto_file_edit = function()
+      actions:goto_file_edit()
+      vim.cmd('tabclose #')
     end
-    vim.keymap.set("n", "<leader>gD", toggleDiffviewHead)
+
+    local file_edit_mapping = {
+      { "n" }, "gf", goto_file_edit, { desc = "Opening file in editor" }
+    }
+
+    require('diffview').setup({
+      hooks = {
+        view_opened = function(view)
+          diffviewOpen = true
+        end,
+        view_closed = function(view)
+          diffviewOpen = false
+        end,
+      },
+      keymaps = {
+        view = {
+          file_edit_mapping
+        },
+        file_panel = {
+          file_edit_mapping
+        },
+        file_history_panel = {
+          file_edit_mapping
+        }
+      }
+    })
+
+    vim.keymap.set("n", "<leader>gd", toggleDiffview)
   end
 }

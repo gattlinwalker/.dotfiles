@@ -1,40 +1,45 @@
 return {
   "nvim-telescope/telescope.nvim",
-  tag = "0.1.5",
+  event = "VeryLazy",
   dependencies = {
-    "nvim-lua/plenary.nvim"
+    "nvim-lua/plenary.nvim",
+    "nvim-telescope/telescope-live-grep-args.nvim",
   },
   config = function()
-    local actions = require("telescope.actions")
-    require('telescope').setup({
+    local telescope = require("telescope")
+    local tele_actions = require("telescope.actions")
+    telescope.setup({
       defaults = {
         mappings = {
           i = {
-            ["<C-j>"] = actions.close -- close telescope window
+            ["<C-j>"] = tele_actions.close,
           },
         },
-        pickers = {
-          find_files = {
-            hidden = true,
-          },
+      },
+      extensions = {
+        live_grep_args = {
+          auto_quoting = true,
         },
-      }
+      },
     })
 
     local builtin = require('telescope.builtin')
     vim.keymap.set('n', '<C-p>', builtin.find_files, {})
-    vim.keymap.set('n', '<C-g>', builtin.git_files, {})
-    vim.keymap.set('n', '<leader>pws', function()
-      local word = vim.fn.expand("<cword>")
-      builtin.grep_string({ search = word })
+    vim.keymap.set("n", "<leader>ps", function()
+      telescope.extensions.live_grep_args.live_grep_args({
+        prompt_title = "Live Grep",
+        additional_args = "-i",
+      })
     end)
-    -- vim.keymap.set('n', '<leader>pWs', function()
-    --   local word = vim.fn.expand("<cWORD>")
-    --   builtin.grep_string({ search = word })
-    -- end)
-    vim.keymap.set('n', '<leader>ps', function()
-      builtin.grep_string({ search = vim.fn.input("Grep > ") })
+
+    vim.keymap.set("n", "<leader>pws", function()
+      require("telescope-live-grep-args.shortcuts").grep_word_under_cursor({
+        prompt_title = "Searching for " .. vim.fn.expand("<cword>"),
+        additional_args = "-i",
+        prompt = "",
+      })
     end)
-    vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
-  end
+
+    telescope.load_extension("live_grep_args")
+  end,
 }

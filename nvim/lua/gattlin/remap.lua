@@ -19,6 +19,10 @@ vim.keymap.set({ "i", "v" }, "<C-j>", "<Esc>")
 -- Save with space w
 vim.keymap.set("n", "<leader>w", "<cmd>:w<CR>")
 
+
+-- Switch to previous buffer
+vim.keymap.set("n", "<leader><leader>", "<C-^>")
+
 -- For some reason yy and space is super slow and seems like it is waiting on another key
 -- Explicitly mapping here
 vim.keymap.set("n", "yy", "yy")

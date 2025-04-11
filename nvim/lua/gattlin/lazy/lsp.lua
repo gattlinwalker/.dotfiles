@@ -26,10 +26,10 @@ end
 local opts = { noremap = true, silent = true }
 vim.keymap.set('n', 'gf', quickfix, opts)
 vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<cr>", opts)
-vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>", opts)
-vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<cr>", opts)
-vim.keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<cr>", opts)
+vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+-- vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<cr>", opts)
+-- vim.keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<cr>", opts)
 vim.keymap.set("n", "gh", vim.lsp.buf.hover, opts)
 vim.keymap.set("n", "gH", vim.lsp.buf.signature_help, opts)
 vim.keymap.set("n", "gr", vim.lsp.buf.rename, opts)
@@ -243,6 +243,7 @@ return {
         { name = 'ruby_lsp' },
         { name = 'luasnip' },
         { name = 'vtsls' },
+        { name = 'kotlin_language_server' },
       }, {
         { name = 'buffer' },
       })

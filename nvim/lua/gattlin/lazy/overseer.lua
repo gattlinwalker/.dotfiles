@@ -7,12 +7,12 @@ return {
     'folke/trouble.nvim',
   },
   keys = {
-    { '<leader>ot',  '<cmd>OverseerToggle<CR>',                 desc = 'Overseer' },
-    { '<leader>or',  '<cmd>OverseerRun<CR>',                    desc = 'Overseer Run' },
-    { '<leader>oi',  '<cmd>OverseerInfo<CR>',                   desc = 'Overseer Info' },
-    { '<leader>oc',  '<cmd>OverseerClearCache<CR>',             desc = 'Overseer Clear Cache' },
-    { '<leader>tf',  '<cmd>OverseerRun test_file<CR>',          desc = 'Overseer Run: Test File' },
-    { '<leader>tfl', '<cmd>OverseerRun test_specific_line<CR>', desc = 'Overseer Run: Test Specific Line' },
+    { '<leader>ot', '<cmd>OverseerToggle<CR>',                 desc = 'Overseer' },
+    { '<leader>or', '<cmd>OverseerRun<CR>',                    desc = 'Overseer Run' },
+    { '<leader>oi', '<cmd>OverseerInfo<CR>',                   desc = 'Overseer Info' },
+    { '<leader>oc', '<cmd>OverseerClearCache<CR>',             desc = 'Overseer Clear Cache' },
+    { '<leader>tf', '<cmd>OverseerRun test_file<CR>',          desc = 'Overseer Run: [T]est [F]ile' },
+    { '<leader>tl', '<cmd>OverseerRun test_specific_line<CR>', desc = 'Overseer Run: [T]est Specific [L]ine' },
   },
   opts = {
     templates = {
@@ -21,10 +21,10 @@ return {
     },
     strategy = {
       "toggleterm",
-      -- load your default shell before starting the task
-      use_shell = true,
+      use_shell = true, -- load your default shell before starting the task
       auto_scroll = true,
       open_on_start = true,
+      close_on_exit = false,
     },
   },
 }
