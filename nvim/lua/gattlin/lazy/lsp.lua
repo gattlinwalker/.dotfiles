@@ -44,11 +44,15 @@ return {
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-cmdline",
+    "hrsh7th/cmp-nvim-lsp-signature-help",
+    "hrsh7th/cmp-nvim-lsp-document-symbol",
     "hrsh7th/nvim-cmp",
+    "David-Kunz/cmp-npm",
     "L3MON4D3/LuaSnip",
     "saadparwaiz1/cmp_luasnip",
     "j-hui/fidget.nvim",
     "onsails/lspkind.nvim",
+    "pmizio/typescript-tools.nvim",
   },
 
   config = function()
@@ -70,11 +74,13 @@ return {
         "gopls",
         "ruby_lsp",
         "vtsls", -- typescript
+        "cssls",
+        "cssmodules_ls",
         "kotlin_language_server",
         "jdtls", -- java
         "tflint",
         "ltex",  -- markdown
-        "html"
+        "html",
       },
       handlers = {
         function(server_name) -- default handler (optional)
@@ -154,6 +160,19 @@ return {
         end,
 
         ["vtsls"] = function()
+          -- require("typescript-tools").setup {
+          --   settings = {
+          --     tsserver_file_preferences = {
+          --       includeInlayParameterNameHints = "all",
+          --       includeCompletionsForModuleExports = true,
+          --       quotePreference = "auto",
+          --     },
+          --     tsserver_format_options = {
+          --       allowIncompleteCompletions = true,
+          --       allowRenameOfImportPath = true,
+          --     }
+          --   },
+          -- }
           require("lspconfig").vtsls.setup({
             settings = {
               vtsls = {
@@ -183,46 +202,52 @@ return {
           })
         end,
 
+        ["cssls"] = function()
+          require('lspconfig').cssls.setup({})
+        end,
+
+        ["cssmodules_ls"] = function()
+          require('lspconfig').cssmodules_ls.setup({
+            init_options = {
+              camelCase = 'dashes',
+            },
+          })
+        end,
+
         ["kotlin_language_server"] = function()
-          require("lspconfig").kotlin_language_server.setup {
+          require("lspconfig").kotlin_language_server.setup({
             capabilities = capabilities,
-            filetypes = { "kotlin" },
+            init_options = {
+              storagePath = table.concat({ vim.fn.stdpath("data") }, "nvim-data"),
+            },
             settings = {
               kotlin = {
-                inlayHints = {
-                  includeInlayEnumMemberValueHints = true,
-                  includeInlayFunctionLikeReturnTypeHints = true,
-                  includeInlayFunctionParameterTypeHints = true,
-                  includeInlayParameterNameHints = "all",
-                  includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                  includeInlayPropertyDeclarationTypeHints = true,
-                  includeInlayVariableTypeHints = true,
-                  includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-                },
-                hint = { -- inlay hints
-                  enable = true,
-                  setType = true,
-                  arrayIndex = "Disable", -- too noisy
-                  semicolon = "Disable",  -- mostly wrong on invalid code
+                hints = {
+                  typeHints = true,
+                  parameterHints = true,
+                  chaineHints = true,
                 },
               },
             },
-          }
+          })
         end,
-
       }
     })
 
     local cmp_select = { behavior = cmp.SelectBehavior.Select }
-    local lspkind = require('lspkind')
 
     cmp.setup({
       formatting = {
-        format = lspkind.cmp_format({
-          with_text = false,
-          maxwidth = 50,
-          show_labelDetails = true,
-        })
+        --          option  symbol  type
+        fields = { "abbr", "kind", "menu" },
+        format = function(entry, vim_item)
+          local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
+
+          return kind
+        end,
+      },
+      window = {
+        completion = { pumheight = 10 },
       },
       snippet = {
         expand = function(args)
@@ -236,14 +261,23 @@ return {
           behavior = cmp.ConfirmBehavior.Replace,
           select = true
         }),
-        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<C-c>"] = cmp.mapping.complete(),
       }),
       sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'ruby_lsp' },
+        { name = 'lua_ls' },
         { name = 'luasnip' },
+        { name = 'rust_analyzer' },
+        { name = 'gopls' },
         { name = 'vtsls' },
+        { name = 'cssls' },
+        { name = 'cssmodules_ls' },
         { name = 'kotlin_language_server' },
+        { name = 'jdtls' },
+        { name = 'tflint' },
+        { name = 'ltex' },
+        { name = 'html' },
       }, {
         { name = 'buffer' },
       })

@@ -1,6 +1,5 @@
 return {
   "nvim-telescope/telescope.nvim",
-  event = "VeryLazy",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope-live-grep-args.nvim",
@@ -25,10 +24,14 @@ return {
 
     local builtin = require('telescope.builtin')
     vim.keymap.set('n', '<C-p>', builtin.find_files, {})
+
+    vim.keymap.set("n", "<leader>pr", function()
+      builtin.resume()
+    end)
     vim.keymap.set("n", "<leader>ps", function()
       telescope.extensions.live_grep_args.live_grep_args({
         prompt_title = "Live Grep",
-        additional_args = "-i",
+        default_text = '-i ' .. "'",
       })
     end)
 
@@ -36,6 +39,8 @@ return {
       require("telescope-live-grep-args.shortcuts").grep_word_under_cursor({
         prompt_title = "Searching for " .. vim.fn.expand("<cword>"),
         additional_args = "-i",
+        postfix = " --iglob *",
+        auto_quoting = true,
         prompt = "",
       })
     end)

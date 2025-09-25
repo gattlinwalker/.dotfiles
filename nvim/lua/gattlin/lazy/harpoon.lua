@@ -16,6 +16,7 @@ return {
     harpoon:setup({
       settings = {
         save_on_toggle = true, -- Save state on window toggle
+        sync_on_ui_close = true,
       },
     })
 
@@ -107,6 +108,19 @@ return {
               sorter = conf.generic_sorter({}),
               -- Initial mode, change this to your liking. Normal mode is better for navigating with j/k
               initial_mode = "normal",
+              layout_config = {
+                width = function(_, max_columns, _)
+                  return math.min(max_columns, 150)
+                end,
+                height = function(_, _, max_lines)
+                  return math.min(max_lines, 15)
+                end,
+              },
+              borderchars = {
+                prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
+                results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
+                preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+              },
               -- Make telescope select buffer from harpoon list
               attach_mappings = function(_, map)
                 actions.select_default:replace(function(prompt_bufnr)
@@ -118,17 +132,17 @@ return {
 
                   harpoon:list():select(curr_entry.index)
                 end)
-                -- Delete entries in insert mode from harpoon list with <C-d>
-                -- Change the keybinding to your liking
-                map({ "n", "i" }, "<C-d>", function(prompt_bufnr)
+
+                -- Delete entries
+                map({ "n" }, "<leader>hr", function(prompt_bufnr)
                   local curr_picker = action_state.get_current_picker(prompt_bufnr)
 
                   curr_picker:delete_selection(function(selection)
-                    harpoon:list():removeAt(selection.index)
+                    harpoon:list():remove(selection)
                   end)
                 end)
-                -- Move entries up and down with <C-j> and <C-k>
-                -- Change the keybinding to your liking
+
+                -- Move entries up and down
                 map({ "n", "i" }, "J", function(prompt_bufnr)
                   move_mark_down(prompt_bufnr, harpoon_files)
                 end)
@@ -146,10 +160,10 @@ return {
     local keys = {
       { "<leader>ho", function() toggle_telescope(harpoon:list()) end,            desc = "Harpoon: Open menu..",         mode = { "n", "v" } },
       { "<leader>ha", function() harpoon:list():add() end,                        desc = "Harpoon: Add current file",    mode = { "n", "v" } },
-      { "<leader>hr", function() require('harpoon.mark').rm_file() end,           desc = "Harpoon: Remove current file", mode = { "n", "v" } },
+      { "<leader>hr", function() harpoon:list():remove() end,                     desc = "Harpoon: Remove current file", mode = { "n", "v" } },
       { "<leader>hc", function() harpoon:list():clear() end,                      desc = "Harpoon: Clear",               mode = { "n", "v" } },
-      { "<leader>,",  function() harpoon:list():next({ ui_nav_wrap = true }) end, desc = "Harpoon: Goto Next",           mode = { "n", "v" } },
-      { "<leader>.",  function() harpoon:list():prev({ ui_nav_wrap = true }) end, desc = "Harpoon: Goto Prev",           mode = { "n", "v" } },
+      { "<leader>h,",  function() harpoon:list():next({ ui_nav_wrap = true }) end, desc = "Harpoon: Goto Next",           mode = { "n", "v" } },
+      { "<leader>h.",  function() harpoon:list():prev({ ui_nav_wrap = true }) end, desc = "Harpoon: Goto Prev",           mode = { "n", "v" } },
     }
 
 
