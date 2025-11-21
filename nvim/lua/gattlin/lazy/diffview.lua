@@ -2,8 +2,7 @@ return {
   'sindrets/diffview.nvim',
   cmd = "DiffviewOpen",
   keys = {
-    "<leader>gd",
-    "<leader>gD"
+    "<leader>dt",
   },
   dependencies = {
     'nvim-lua/plenary.nvim',
@@ -52,6 +51,6 @@ return {
       }
     })
 
-    vim.keymap.set("n", "<leader>gd", toggleDiffview)
+    vim.keymap.set("n", "<leader>dt", toggleDiffview)
   end
 }

@@ -1,15 +1,6 @@
 return {
   'mhartington/formatter.nvim',
   config = function()
-    vim.api.nvim_exec(
-      [[
-        augroup FormatAutogroup
-          autocmd!
-          autocmd BufWritePost * FormatWrite
-        augroup END
-      ]],
-      true
-    )
     local util = require("formatter.util")
 
     local prettierd_fmt = function(path)
@@ -23,10 +14,38 @@ return {
       }
     end
 
+    local eslint_d_fmt = function()
+      -- Use global eslint_d (it will pick up project's eslint.config.js automatically)
+      return {
+        exe = "eslint_d",
+        args = {
+          "--fix-to-stdout",
+          "--stdin",
+          "--stdin-filename",
+          util.escape_path(util.get_current_buffer_file_path()),
+        },
+        stdin = true,
+        cwd = vim.fn.getcwd(),
+      }
+    end
+
     require("formatter").setup({
+      logging = true,
+      log_level = vim.log.levels.WARN,
       filetype = {
+        javascript = {
+          eslint_d_fmt,
+        },
+        javascriptreact = {
+          eslint_d_fmt,
+        },
+        typescript = {
+          eslint_d_fmt,
+        },
+        typescriptreact = {
+          eslint_d_fmt,
+        },
         rust = {
-          -- Rustfmt
           function()
             return {
               exe = "rustfmt",
@@ -47,27 +66,6 @@ return {
             return prettierd_fmt(util.escape_path(util.get_current_buffer_file_path()))
           end,
         },
-        -- SAMPLE for prettier
-        -- javascript = {
-        --   function()
-        --     return prettierd_fmt(util.escape_path(util.get_current_buffer_file_path()))
-        --   end,
-        -- },
-        -- javascriptreact = {
-        --   function()
-        --     return prettierd_fmt(util.escape_path(util.get_current_buffer_file_path()))
-        --   end,
-        -- },
-        -- typescript = {
-        --   function()
-        --     return prettierd_fmt(util.escape_path(util.get_current_buffer_file_path()))
-        --   end,
-        -- },
-        -- typescriptreact = {
-        --   function()
-        --     return prettierd_fmt(util.escape_path(util.get_current_buffer_file_path()))
-        --   end,
-        -- },
         handlebars = {
           function()
             return prettierd_fmt(util.escape_path(util.get_current_buffer_file_path()))
@@ -84,6 +82,13 @@ return {
           end,
         },
       },
+    })
+
+    -- Auto-format on save
+    vim.api.nvim_create_autocmd("BufWritePost", {
+      callback = function()
+        vim.cmd("FormatWrite")
+      end,
     })
   end,
 }

@@ -1,20 +1,36 @@
 return {
   {
     "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
       warn_no_results = false,
-      indent_guides = false,
+      open_no_results = false,
     },
     config = function()
-      local trouble = require("trouble")
-      trouble.setup({
-        use_lsp_diagnostic_signs = true,
+      require("trouble").setup({
+        modes = {
+          diagnostics = {
+            auto_open = false,
+            auto_close = false,
+            follow = true, -- Follow the cursor
+            focus = false, -- Don't steal focus
+          },
+        },
       })
 
-      vim.keymap.set("n", "<leader>tt", "<cmd>Trouble diagnostics toggle<cr>")
+      -- Toggle trouble diagnostics
+      vim.keymap.set("n", "<leader>tt", function()
+        require("trouble").toggle("diagnostics")
+      end, { desc = "Toggle Trouble Diagnostics" })
 
-      vim.keymap.set("n", "]t", "<cmd>Trouble diagnostics next jump_only<cr>")
-      vim.keymap.set("n", "[t", "<cmd>Trouble diagnostics prev jump_only<cr>")
+      -- Navigate between diagnostics
+      vim.keymap.set("n", "]t", function()
+        require("trouble").next({ skip_groups = true, jump = true })
+      end, { desc = "Next Trouble Item" })
+
+      vim.keymap.set("n", "[t", function()
+        require("trouble").prev({ skip_groups = true, jump = true })
+      end, { desc = "Previous Trouble Item" })
     end
   },
 }

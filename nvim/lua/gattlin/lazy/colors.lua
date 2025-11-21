@@ -17,7 +17,22 @@ local nordic = {
   end
 }
 
-local theme = everforest
+-- Change this to switch themes: "everforest", "nordic", or "nord_dark"
+local active_theme = "nord_dark"
+
+-- Load custom theme if selected (not managed by lazy.nvim)
+if active_theme == "nord_dark" then
+  require("nord-dark").setup()
+  return {}  -- Return empty table so lazy.nvim doesn't try to load anything
+end
+
+-- Otherwise return the plugin-based theme
+local themes = {
+  everforest = everforest,
+  nordic = nordic,
+}
+
+local theme = themes[active_theme]
 
 return {
   theme.package,
