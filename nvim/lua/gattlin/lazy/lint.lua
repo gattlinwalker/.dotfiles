@@ -1,19 +1,4 @@
 return {
-<<<<<<< Updated upstream
-  {
-    -- ESLint plugin for additional features
-    'esmuellert/nvim-eslint',
-    ft = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-    config = function()
-      require('nvim-eslint').setup({})
-    end
-  },
-  {
-    -- Main linting plugin
-||||||| Stash base
-
-  { -- Linting
-=======
   {
     -- ESLint plugin for additional features
     'esmuellert/nvim-eslint',
@@ -76,17 +61,10 @@ return {
   },
   {
     -- Main linting plugin
->>>>>>> Stashed changes
     "mfussenegger/nvim-lint",
     event = { "BufReadPre", "BufNewFile" },
     config = function()
       local lint = require("lint")
-<<<<<<< Updated upstream
-
-      -- Use eslint_d (it will automatically pick up project's eslint.config.js)
-      -- Configure linters by file type
-||||||| Stash base
-=======
 
       local function real_buf_path(bufnr)
         local name = vim.api.nvim_buf_get_name(bufnr)
@@ -147,7 +125,6 @@ return {
 
       -- Use eslint_d (it will automatically pick up project's eslint.config.js)
       -- Configure linters by file type
->>>>>>> Stashed changes
       lint.linters_by_ft = {
         javascript = { "eslint_d" },
         typescript = { "eslint_d" },
@@ -162,14 +139,6 @@ return {
       vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave" }, {
         group = lint_augroup,
         callback = function()
-<<<<<<< Updated upstream
-          local ft = vim.bo.filetype
-          if lint.linters_by_ft[ft] then
-            lint.try_lint()
-          end
-||||||| Stash base
-          lint.try_lint()
-=======
           if not should_lint_buffer(0) then
             return
           end
@@ -178,49 +147,8 @@ return {
           if lint.linters_by_ft[ft] then
             lint.try_lint(nil, { cwd = lint_cwd(0) })
           end
->>>>>>> Stashed changes
         end,
       })
-<<<<<<< Updated upstream
-
-      -- Lint after formatting completes (triggered by formatter.nvim)
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "FormatterPost",
-        callback = function()
-          local ft = vim.bo.filetype
-          if lint.linters_by_ft[ft] then
-            vim.defer_fn(function()
-              lint.try_lint()
-            end, 150)
-          end
-        end,
-      })
-
-      -- Manual linting keymap
-      vim.keymap.set("n", "<leader>l", function()
-        lint.try_lint()
-      end, { desc = "Trigger linting for current file" })
-
-      -- Manual ESLint fix keymap (format without saving)
-      vim.keymap.set("n", "<leader>e", function()
-        local file = vim.fn.expand("%:p")
-        local local_eslint = vim.fn.findfile("node_modules/.bin/eslint", ".;")
-        local eslint_cmd = "eslint"
-        
-        if local_eslint ~= "" then
-          eslint_cmd = vim.fn.fnamemodify(local_eslint, ":p")
-        end
-        
-        vim.fn.system(eslint_cmd .. " --fix " .. vim.fn.shellescape(file))
-        vim.cmd("edit") -- Reload the file to show changes
-        vim.notify("ESLint fix applied", vim.log.levels.INFO)
-        -- Trigger linting after formatting
-        vim.defer_fn(function()
-          lint.try_lint()
-        end, 100)
-      end, { desc = "Fix with ESLint" })
-||||||| Stash base
-=======
 
       -- Lint after formatting completes (triggered by formatter.nvim)
       vim.api.nvim_create_autocmd("User", {
@@ -276,7 +204,6 @@ return {
           lint.try_lint(nil, { cwd = lint_cwd(0) })
         end, 100)
       end, { desc = "Fix with ESLint" })
->>>>>>> Stashed changes
     end,
   },
 }

@@ -45,41 +45,6 @@ return {
     })
 
     local builtin = require('telescope.builtin')
-<<<<<<< Updated upstream
-
-    -- Use frecency for intelligent file finding (shows frequently/recently used files first)
-    vim.keymap.set('n', '<C-p>', function()
-      telescope.extensions.frecency.frecency({
-        workspace = 'CWD',
-        path_display = function(opts, path)
-          -- Extract just the filename (no path components)
-          local filename = vim.fn.fnamemodify(path, ":t")
-
-          -- Get the parent directory
-          local parent = vim.fn.fnamemodify(path, ":h")
-
-          -- Make parent relative to cwd
-          local cwd = vim.fn.getcwd()
-          if vim.startswith(parent, cwd) then
-            parent = parent:sub(#cwd + 2) -- +2 to remove leading slash
-            if parent == "" then
-              parent = "."
-            end
-          end
-
-          -- Handle current directory
-          if parent == "." then
-            return filename
-          end
-
-          -- Return display: filename first, then path
-          return string.format("%s - %s", filename, parent)
-        end,
-      })
-    end, {})
-||||||| Stash base
-    vim.keymap.set('n', '<C-p>', builtin.find_files, {})
-=======
     -- Use frecency for intelligent file finding (shows frequently/recently used files first)
     vim.keymap.set('n', '<C-p>', function()
       telescope.extensions.frecency.frecency({
@@ -127,7 +92,6 @@ return {
         path_display = { "smart" },
       })
     end, { desc = "Find files (frecency)" })
->>>>>>> Stashed changes
 
     vim.keymap.set("n", "<leader>pr", function()
       builtin.resume()
