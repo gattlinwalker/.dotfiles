@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 local everforest = {
   package = 'neanias/everforest-nvim',
   config = function()
@@ -34,9 +35,38 @@ local themes = {
 
 local theme = themes[active_theme]
 
+||||||| Stash base
+local everforest = {
+  package = 'neanias/everforest-nvim',
+  config = function()
+    local everforest = require('everforest')
+    everforest.setup {
+      background = "hard",
+      transparent_background_level = 0,
+    }
+    everforest.load()
+  end,
+}
+
+local nordic = {
+  package = 'AlexvZyl/nordic.nvim',
+  config = function()
+    require('nordic').load()
+  end
+}
+
+local theme = everforest
+
+=======
+>>>>>>> Stashed changes
 return {
-  theme.package,
+  'sainnhe/gruvbox-material',
   lazy = false,
   priority = 1000,
-  config = theme.config
+  config = function()
+    vim.g.gruvbox_material_background = 'hard'
+    vim.g.gruvbox_material_enable_italic = 1
+    vim.g.gruvbox_material_better_performance = 1
+    vim.cmd.colorscheme('gruvbox-material')
+  end,
 }

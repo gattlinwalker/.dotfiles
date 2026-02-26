@@ -10,3 +10,9 @@ tmux/plugins/
 goose/
 pip/
 databricks-sdk-py/
+amp/
+graphite/
+gdrive-skill/
+uv/
+slack-skill/
+nx/

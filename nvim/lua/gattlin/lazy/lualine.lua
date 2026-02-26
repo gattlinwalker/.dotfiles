@@ -4,7 +4,13 @@ return {
   config = function()
     require("lualine").setup({
       options = {
+<<<<<<< Updated upstream
         theme = "nord-dark",  -- Using custom nord-dark theme
+||||||| Stash base
+        theme = "everforest",
+=======
+        theme = "auto",
+>>>>>>> Stashed changes
       },
       sections = {
         lualine_c = {

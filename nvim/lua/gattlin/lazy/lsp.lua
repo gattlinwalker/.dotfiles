@@ -48,6 +48,12 @@ return {
       cmp_lsp.default_capabilities(),
       vim.lsp.protocol.make_client_capabilities()
     )
+    
+    -- Add folding capabilities for nvim-ufo
+    capabilities.textDocument.foldingRange = {
+      dynamicRegistration = false,
+      lineFoldingOnly = true
+    }
 
     require("fidget").setup({})
     require("mason").setup()
@@ -63,7 +69,6 @@ return {
         "kotlin_language_server",
         "jdtls", -- java
         "tflint",
-        "ltex",  -- markdown
         "html",
       },
       handlers = {
@@ -246,7 +251,6 @@ return {
         { name = 'kotlin_language_server' },
         { name = 'jdtls' },
         { name = 'tflint' },
-        { name = 'ltex' },
         { name = 'html' },
       }, {
         { name = 'buffer' },
